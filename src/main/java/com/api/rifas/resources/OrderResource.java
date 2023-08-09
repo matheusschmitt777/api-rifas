@@ -16,8 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.api.rifas.dto.OrderDTO;
 import com.api.rifas.entities.Order;
-import com.api.rifas.entities.OrderItem;
-import com.api.rifas.entities.Raffle;
 import com.api.rifas.servies.OrderService;
 
 @RestController
@@ -29,29 +27,15 @@ public class OrderResource {
 	private OrderService service;
 
 	@GetMapping
-	public ResponseEntity<List<Order>> findAll() {
-	    List<Order> orders = service.findAll();
-
-	    for (Order order : orders) {
-	        for (OrderItem item : order.getItems()) {
-	            Raffle raffle = item.getRaffle();
-	            raffle.generateRandomNumbers(item.getQuantity());
-	        }
-	    }
-		return ResponseEntity.ok().body(orders);
+	public ResponseEntity<List<Order>> findAll(){
+		List<Order> list = service.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Order> findById(@PathVariable Long id) {
-		 Order obj = service.findById(id);
-
-		    for (OrderItem item : obj.getItems()) {
-		        Raffle raffle = item.getRaffle();
-		        Integer quantity = item.getQuantity();
-		        raffle.generateRandomNumbers(quantity);
-		    }
-
-		    return ResponseEntity.ok().body(obj);
+		Order obj = service.findById(id);
+		return ResponseEntity.ok().body(obj);
 	}
 	
 	 @PostMapping

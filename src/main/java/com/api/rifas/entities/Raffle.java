@@ -3,12 +3,9 @@ package com.api.rifas.entities;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Set;
 
 import com.api.rifas.entities.enums.RaffleStatus;
@@ -46,8 +43,6 @@ public class Raffle implements Serializable{
     }
 	
 	private Integer raffleStatus;
-	
-	private List<Integer> randomNumbers = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "id.raffle")
 	private Set<OrderItem> items = new HashSet<>();
@@ -123,14 +118,6 @@ public class Raffle implements Serializable{
 		}
 	}
 	
-	public List<Integer> getRandomNumbers() {
-		return randomNumbers;
-	}
-
-	public void setRandomNumbers(List<Integer> randomNumbers) {
-		this.randomNumbers = randomNumbers;
-	}
-	
 	@JsonIgnore
 	public Set<Order> getOrders() {
 		Set<Order> set = new HashSet<>();
@@ -139,19 +126,6 @@ public class Raffle implements Serializable{
 		}
 		return set;
 	}
-
-	public void generateRandomNumbers(Integer quantity2) {
-        Set<Integer> generatedNumbers = new HashSet<>();
-
-        int maxNumber = (int) Math.round(getQuantity()); // Convertendo para int
-        Random random = new Random();
-        while (generatedNumbers.size() < quantity2) {
-        	int randomNumber = random.nextInt(maxNumber) + 1; // Gera número entre 0 e a quantidade desejada
-            generatedNumbers.add(randomNumber);
-        }
-
-        randomNumbers = new ArrayList<>(generatedNumbers);
-    }
 	
 	@Override
 	public int hashCode() {

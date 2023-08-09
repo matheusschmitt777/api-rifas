@@ -18,13 +18,13 @@ public class OrderService {
 
 	@Autowired
 	private OrderRepository repository;
-	
-	 @Autowired
+
+	@Autowired
 	private UserRepository userRepository;
 
-	public List<Order> findAll(){
+	public List<Order> findAll() {
 		return repository.findAll();
-	} 
+	}
 
 	public Order findById(Long id) {
 		Optional<Order> obj = repository.findById(id);
@@ -32,12 +32,12 @@ public class OrderService {
 	}
 
 	public Order createOrder(OrderDTO orderDTO) {
-        User client = userRepository.findById(orderDTO.getClientId())
-                .orElseThrow(() -> new ResourceNotFoundException(orderDTO.getClientId()));
+		User client = userRepository.findById(orderDTO.getClientId())
+				.orElseThrow(() -> new ResourceNotFoundException(orderDTO.getClientId()));
 
-        Order newOrder = new Order();
-        newOrder.setClient(client);
+		Order newOrder = new Order();
+		newOrder.setClient(client);
 
-        return repository.save(newOrder);
-    }
+		return repository.save(newOrder);
+	}
 }
