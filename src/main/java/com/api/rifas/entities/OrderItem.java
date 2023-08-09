@@ -3,8 +3,10 @@ package com.api.rifas.entities;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 
 import com.api.rifas.entities.pk.OrderItemPK;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,6 +35,8 @@ public class OrderItem implements Serializable {
 		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
 		return "R$ " + decimalFormat.format(price);
 	}
+	
+	private Set<Integer> generatedNumbers = new HashSet<>();
 
 	public OrderItem() {
 	}
@@ -90,6 +94,14 @@ public class OrderItem implements Serializable {
 		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
 		return "R$ " + decimalFormat.format(getSubTotal());
 	}
+	
+	public Set<Integer> getGeneratedNumbers() {
+        return generatedNumbers;
+    }
+
+    public void setGeneratedNumbers(Set<Integer> generatedNumbers) {
+        this.generatedNumbers = generatedNumbers;
+    }
 
 	@Override
 	public int hashCode() {

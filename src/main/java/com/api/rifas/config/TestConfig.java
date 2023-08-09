@@ -18,7 +18,7 @@ import com.api.rifas.repositories.RaffleRepository;
 import com.api.rifas.repositories.UserRepository;
 
 @Configuration
-@Profile("test")
+@Profile("dev")
 public class TestConfig implements CommandLineRunner{
 
 	@Autowired

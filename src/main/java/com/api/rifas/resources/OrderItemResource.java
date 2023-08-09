@@ -42,19 +42,23 @@ public class OrderItemResource {
     }
 
     @PostMapping
-    public ResponseEntity<OrderItem> createOrderItem(@RequestBody OrderItemDTO dto) {
+    public ResponseEntity<OrderItemDTO> createOrderItem(@RequestBody OrderItemDTO dto) {
         Order order = orderService.findById(dto.getOrderId());
         Raffle raffle = raffleService.findById(dto.getRaffleId());
 
         OrderItem newOrderItem = new OrderItem(order, raffle, dto.getQuantity(), raffle.getPrice());
-        orderItemService.createOrderItem(newOrderItem);
+        newOrderItem = orderItemService.createOrderItem(newOrderItem);
+
+        OrderItemDTO responseDto = new OrderItemDTO();
+        responseDto.setId(newOrderItem.getOrder().getId()); // Obtenha o ID do pedido do OrderItemPK
+        responseDto.setGeneratedNumbers(newOrderItem.getGeneratedNumbers());
 
         URI location = ServletUriComponentsBuilder
             .fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(order, raffle) // Use o ID do novo OrderItem aqui
+            .buildAndExpand(newOrderItem.getOrder().getId()) // Use o ID do pedido do OrderItemPK
             .toUri();
 
-        return ResponseEntity.created(location).body(newOrderItem);
+        return ResponseEntity.created(location).body(responseDto);
     }
 }
