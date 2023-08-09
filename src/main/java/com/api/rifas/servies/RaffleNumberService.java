@@ -8,39 +8,32 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.stereotype.Service;
 
-import com.api.rifas.servies.exceptions.MaxGeneratedNumbersExceededException;
+import com.api.rifas.entities.User;
+import com.api.rifas.servies.exceptions.ExceededRaffleLimitException;
 
 @Service
 public class RaffleNumberService {
 
     private Map<Long, Set<Integer>> raffleNumbersMap = new HashMap<>();
 
-    public Set<Integer> generateNumbers(Long raffleId, int quantity, int maxNumber) {
-        if (quantity > maxNumber) {
-            throw new MaxGeneratedNumbersExceededException("Exceeded maximum generated numbers for this order item");
-        }
+    public Set<Integer> generateNumbers(Long raffleId, User user, int quantity, int maxNumber) {
         Set<Integer> generatedNumbers = new HashSet<>();
+        Set<Integer> existingNumbers = raffleNumbersMap.getOrDefault(raffleId, new HashSet<>());
 
-        if (quantity <= maxNumber) {
-            Set<Integer> existingNumbers = raffleNumbersMap.getOrDefault(raffleId, new HashSet<>());
-
-            while (generatedNumbers.size() < quantity) {
-                int randomNumber = ThreadLocalRandom.current().nextInt(1, maxNumber + 1);
-
-                if (!existingNumbers.contains(randomNumber)) {
-                    generatedNumbers.add(randomNumber);
-                    existingNumbers.add(randomNumber);
-                }
-            }
-            
-            if (quantity > maxNumber) {
-                throw new MaxGeneratedNumbersExceededException("Exceeded maximum generated numbers for this order item");
-            }
-
-            raffleNumbersMap.put(raffleId, existingNumbers); // Atualiza os números gerados para a rifa
+        if (existingNumbers.size() + quantity > maxNumber) {
+            throw new ExceededRaffleLimitException("Exceeded raffle limit for user: " + user.getId());
         }
 
+        while (generatedNumbers.size() < quantity) {
+            int randomNumber = ThreadLocalRandom.current().nextInt(1, maxNumber + 1);
+
+            if (!existingNumbers.contains(randomNumber)) {
+                generatedNumbers.add(randomNumber);
+                existingNumbers.add(randomNumber);
+            }
+        }
+
+        raffleNumbersMap.put(raffleId, existingNumbers); // Atualiza os números gerados para a rifa
         return generatedNumbers;
     }
-
 }
