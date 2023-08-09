@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.api.rifas.servies.exceptions.DatabaseException;
+import com.api.rifas.servies.exceptions.MaxGeneratedNumbersExceededException;
 import com.api.rifas.servies.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,4 +31,13 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(MaxGeneratedNumbersExceededException.class)
+	public ResponseEntity<StandardError> maxGeneratedNumbersExceeded(MaxGeneratedNumbersExceededException e, HttpServletRequest request) {
+	    String error = "Exceeded maximum generated numbers";
+	    HttpStatus status = HttpStatus.BAD_REQUEST;
+	    StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+	    return ResponseEntity.status(status).body(err);
+	}
+
 }

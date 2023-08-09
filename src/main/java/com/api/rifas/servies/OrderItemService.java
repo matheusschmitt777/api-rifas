@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.rifas.entities.OrderItem;
 import com.api.rifas.repositories.OrderItemRepository;
+import com.api.rifas.servies.exceptions.MaxGeneratedNumbersExceededException;
 
 @Service
 public class OrderItemService {
@@ -46,6 +47,10 @@ public class OrderItemService {
 		Long raffleId = orderItem.getRaffle().getId();
 		int maxNumber = orderItem.getRaffle().getQuantity();
 		int quantity = orderItem.getQuantity();
+		
+		if (quantity > maxNumber) {
+		        throw new MaxGeneratedNumbersExceededException("Exceeded maximum generated numbers for this order item");
+		}
 
 		Set<Integer> generatedNumbers = raffleNumberService.generateNumbers(raffleId, quantity, maxNumber);
 
