@@ -3,6 +3,7 @@ package com.api.rifas.entities;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
@@ -27,6 +28,7 @@ public class Order implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private Instant moment;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -38,8 +40,9 @@ public class Order implements Serializable{
 	public Order() {
 	}
 
-	public Order(Long id, User client) {
+	public Order(Long id, Instant moment, User client) {
 		this.id = id;
+		this.moment = moment;
 		this.client = client;
 	}
 
@@ -49,6 +52,14 @@ public class Order implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Instant getMoment() {
+		return moment;
+	}
+
+	public void setMoment(Instant moment) {
+		this.moment = moment;
 	}
 
 	public User getClient() {

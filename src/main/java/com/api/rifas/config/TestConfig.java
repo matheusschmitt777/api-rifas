@@ -1,5 +1,6 @@
 package com.api.rifas.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +47,9 @@ public class TestConfig implements CommandLineRunner{
 		User u1 = new User(null, "Maria", "999999", "");
 		User u2 = new User(null, "Jerry", "888888", "");
 		
-		Order o1 = new Order(null, u1);
-		Order o2 = new Order(null, u2);
-		Order o3 = new Order(null, u1);
+		Order o1 = new Order(null, Instant.now(), u1);
+		Order o2 = new Order(null, Instant.now(), u2);
+		Order o3 = new Order(null, Instant.now(), u1);
 		
 		userRepository.saveAll(Arrays.asList(u1,u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
