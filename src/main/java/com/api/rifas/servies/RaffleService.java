@@ -35,7 +35,7 @@ public class RaffleService {
 	
 	@Transactional
 	public Raffle insert(Raffle obj) {
-	    obj.setMoment(Instant.now());
+	    obj.setMomentCreated(Instant.now());
 	    return repository.save(obj);
 	}
 	

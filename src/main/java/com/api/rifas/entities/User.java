@@ -1,10 +1,12 @@
 package com.api.rifas.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -26,6 +28,9 @@ public class User implements Serializable {
 	private String phone;
 	private String file;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
+	private Instant momentCreated;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
@@ -33,11 +38,12 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(Long id, String name, String phone, String file) {
+	public User(Long id, String name, String phone, String file, Instant momentCreated) {
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
 		this.file = file;
+		this.momentCreated = momentCreated;
 	}
 
 	public Long getId() {
@@ -71,6 +77,14 @@ public class User implements Serializable {
 
 	public void setFile(String file) {
 		this.file = file;
+	}
+	
+	public Instant getMomentCreated() {
+		return momentCreated;
+	}
+
+	public void setMomentCreated(Instant momentCreated) {
+		this.momentCreated = momentCreated;
 	}
 
 	public List<Order> getOrders() {

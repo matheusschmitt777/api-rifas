@@ -44,8 +44,8 @@ public class TestConfig implements CommandLineRunner{
 		
 		raffleRepository.saveAll(Arrays.asList(r1, r2, r3, r4));
 		
-		User u1 = new User(null, "Maria", "999999", "");
-		User u2 = new User(null, "Jerry", "888888", "");
+		User u1 = new User(null, "Maria", "999999", "", Instant.now());
+		User u2 = new User(null, "Jerry", "888888", "", Instant.now());
 		
 		Order o1 = new Order(null, Instant.now(), u1);
 		Order o2 = new Order(null, Instant.now(), u2);

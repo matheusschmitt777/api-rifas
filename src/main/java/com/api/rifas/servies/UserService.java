@@ -1,5 +1,6 @@
 package com.api.rifas.servies;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,8 @@ public class UserService {
 
 	@Transactional
 	public User insert(User obj) {
-		return repository.save(obj);
+	    obj.setMomentCreated(Instant.now());
+	    return repository.save(obj);
 	}
 
 	@Transactional
