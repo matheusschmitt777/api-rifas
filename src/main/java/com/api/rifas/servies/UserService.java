@@ -58,5 +58,6 @@ public class UserService {
 	public void updateData(User entity, User obj) {
 		entity.setName(obj.getName());
 		entity.setPhone(obj.getPhone());
+		entity.setFile(obj.getFile());
 	}
 }
