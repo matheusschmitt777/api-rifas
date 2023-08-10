@@ -37,10 +37,10 @@ public class TestConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Raffle r1 = new Raffle(null, 100000, "raffle1", "raffle", 10.50, "", RaffleStatus.OPEN);
-		Raffle r2 = new Raffle(null, 100, "raffle2", "raffle", 10.50, "", RaffleStatus.OPEN);
-		Raffle r3 = new Raffle(null, 100, "raffle3", "raffle", 10.50, "", RaffleStatus.OPEN);
-		Raffle r4 = new Raffle(null, 50, "raffle4", "raffle", 10.50, "", RaffleStatus.OPEN);
+		Raffle r1 = new Raffle(null, 100000, "raffle1", "raffle", 10.50, "", Instant.now(), RaffleStatus.OPEN);
+		Raffle r2 = new Raffle(null, 100, "raffle2", "raffle", 10.50, "", Instant.now(), RaffleStatus.OPEN);
+		Raffle r3 = new Raffle(null, 100, "raffle3", "raffle", 10.50, "", Instant.now(), RaffleStatus.OPEN);
+		Raffle r4 = new Raffle(null, 50, "raffle4", "raffle", 10.50, "", Instant.now(), RaffleStatus.OPEN);
 		
 		raffleRepository.saveAll(Arrays.asList(r1, r2, r3, r4));
 		

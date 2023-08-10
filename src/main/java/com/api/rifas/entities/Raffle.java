@@ -3,12 +3,14 @@ package com.api.rifas.entities;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
 import com.api.rifas.entities.enums.RaffleStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -42,6 +44,9 @@ public class Raffle implements Serializable{
         return "R$ " + decimalFormat.format(price);
     }
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
+	private Instant moment;
+	
 	private Integer raffleStatus;
 	
 	@OneToMany(mappedBy = "id.raffle")
@@ -50,13 +55,14 @@ public class Raffle implements Serializable{
 	public Raffle() {
 	}
 
-	public Raffle(Long id, Integer quantity, String name, String description, Double price, String imgUrl,  RaffleStatus raffleStatus) {
+	public Raffle(Long id, Integer quantity, String name, String description, Double price, String imgUrl, Instant moment,  RaffleStatus raffleStatus) {
 		this.id = id;
 		this.quantity = quantity;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.imgUrl = imgUrl;
+		this.moment = moment;
 		setRaffleStatus(raffleStatus);
 	}
 
@@ -106,6 +112,15 @@ public class Raffle implements Serializable{
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+	
+
+	public Instant getMoment() {
+		return moment;
+	}
+
+	public void setMoment(Instant moment) {
+		this.moment = moment;
 	}
 
 	public RaffleStatus getRaffleStatus() {

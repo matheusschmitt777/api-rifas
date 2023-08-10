@@ -1,5 +1,6 @@
 package com.api.rifas.servies;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,8 @@ public class RaffleService {
 	
 	@Transactional
 	public Raffle insert(Raffle obj) {
-		return repository.save(obj);
+	    obj.setMoment(Instant.now());
+	    return repository.save(obj);
 	}
 	
 	@Transactional
