@@ -39,7 +39,6 @@ public class UserService {
 	    return repository.save(obj);
 	}
 
-	@Transactional
 	public void delete(Long id) {
 		try {
 			if (repository.existsById(id)) {
@@ -67,5 +66,6 @@ public class UserService {
 		entity.setName(obj.getName());
 		entity.setPhone(obj.getPhone());
 		entity.setFile(obj.getFile());
+		entity.setUserStatus(obj.getUserStatus());
 	}
 }

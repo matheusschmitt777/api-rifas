@@ -39,7 +39,6 @@ public class RaffleService {
 	    return repository.save(obj);
 	}
 	
-	@Transactional
 	public void delete(Long id) {
 		try {
 			if (repository.existsById(id)) {
