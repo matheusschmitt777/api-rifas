@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.api.rifas.entities.enums.UserStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,6 +32,8 @@ public class User implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
 	private Instant momentCreated;
 	
+	private Integer userStatus;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
@@ -38,12 +41,13 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(Long id, String name, String phone, String file, Instant momentCreated) {
+	public User(Long id, String name, String phone, String file,  UserStatus userStatus, Instant momentCreated) {
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
 		this.file = file;
 		this.momentCreated = momentCreated;
+		setUserStatus(userStatus);
 	}
 
 	public Long getId() {
@@ -85,6 +89,16 @@ public class User implements Serializable {
 
 	public void setMomentCreated(Instant momentCreated) {
 		this.momentCreated = momentCreated;
+	}
+	
+	public UserStatus getUserStatus() {
+		return UserStatus.valueOf(userStatus);
+	}
+
+	public void setUserStatus(UserStatus userStatus) {
+		if (userStatus != null) {
+			this.userStatus = userStatus.getCode();
+		}
 	}
 
 	public List<Order> getOrders() {
