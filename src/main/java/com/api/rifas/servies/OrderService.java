@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.api.rifas.dto.OrderDTO;
 import com.api.rifas.entities.Order;
+import com.api.rifas.entities.OrderItem;
 import com.api.rifas.entities.User;
+import com.api.rifas.repositories.OrderItemRepository;
 import com.api.rifas.repositories.OrderRepository;
 import com.api.rifas.repositories.UserRepository;
 import com.api.rifas.servies.exceptions.ResourceNotFoundException;
@@ -23,6 +25,9 @@ public class OrderService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	@Transactional
 	public List<Order> findAll() {
@@ -46,4 +51,19 @@ public class OrderService {
 
         return repository.save(newOrder);
     }
+	
+	// Supondo que você tenha um método para excluir um pedido pelo ID em seu OrderService
+	public void deleteOrder(Long orderId) {
+	    // Primeiro, encontre o pedido pelo ID
+	    Order order = repository.findById(orderId)
+	            .orElseThrow(() -> new ResourceNotFoundException(orderId));
+
+	    // Em seguida, exclua todos os itens de pedido associados a este pedido
+	    for (OrderItem item : order.getItems()) {
+	        orderItemRepository.delete(item);
+	    }
+
+	    // Finalmente, exclua o próprio pedido
+	    repository.delete(order);
+	}
 }
