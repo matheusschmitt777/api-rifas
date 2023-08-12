@@ -73,6 +73,7 @@ public class RaffleService {
 		entity.setDescription(obj.getDescription());
 		entity.setPrice(obj.getPrice());
 		entity.setImgUrl(obj.getImgUrl());
+		entity.setRaffleStatus(obj.getRaffleStatus());
 	}
 	
 	@Transactional(readOnly = true)
