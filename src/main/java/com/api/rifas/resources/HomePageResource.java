@@ -16,37 +16,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.api.rifas.entities.Raffle;
-import com.api.rifas.servies.RaffleService;
+import com.api.rifas.entities.HomePage;
+import com.api.rifas.servies.HomePageService;
 
 @RestController
-@RequestMapping(value = "/raffles")
+@RequestMapping(value = "/home-pages")
 @CrossOrigin(origins = "*")
-public class RaffleResource {
-
+public class HomePageResource {
+	
 	@Autowired
-	private RaffleService service;
-
+	private HomePageService service;
+	
 	@GetMapping
-	public ResponseEntity<List<Raffle>> findAll(){
-		List<Raffle> list = service.findAll();
+	public ResponseEntity<List<HomePage>> findAll(){
+		List<HomePage> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Raffle> findById(@PathVariable Long id) {
-		Raffle obj = service.findById(id);
+	public ResponseEntity<HomePage> findById(@PathVariable Long id) {
+		HomePage obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@GetMapping(value = "/{id}/remaining")
-	public ResponseEntity<Long> getRemainingRaffles(@PathVariable Long id) {
-	    Long remainingRaffles = service.calculateRemainingRaffles(id);
-	    return ResponseEntity.ok(remainingRaffles);
-	}
-	
 	@PostMapping
-	public ResponseEntity<Raffle> insert(@RequestBody Raffle obj) {
+	public ResponseEntity<HomePage> insert(@RequestBody HomePage obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
@@ -59,7 +53,7 @@ public class RaffleResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Raffle> update(@PathVariable Long id, @RequestBody Raffle obj) {
+	public ResponseEntity<HomePage> update(@PathVariable Long id, @RequestBody HomePage obj) {
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}

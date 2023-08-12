@@ -9,7 +9,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.api.rifas.entities.OrderItem;
 import com.api.rifas.entities.Raffle;
+import com.api.rifas.repositories.OrderItemRepository;
 import com.api.rifas.repositories.RaffleRepository;
 import com.api.rifas.servies.exceptions.DatabaseException;
 import com.api.rifas.servies.exceptions.ResourceNotFoundException;
@@ -21,6 +23,9 @@ public class RaffleService {
 
 	@Autowired
 	private RaffleRepository repository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	@Transactional
 	public List<Raffle> findAll(){
@@ -68,5 +73,20 @@ public class RaffleService {
 		entity.setDescription(obj.getDescription());
 		entity.setPrice(obj.getPrice());
 		entity.setImgUrl(obj.getImgUrl());
+	}
+	
+	@Transactional(readOnly = true)
+	public Long calculateRemainingRaffles(Long raffleId) {
+	    Raffle raffle = repository.findById(raffleId)
+	            .orElseThrow(() -> new ResourceNotFoundException(raffleId));
+
+	    int maxQuantity = raffle.getQuantity();
+
+	    List<OrderItem> soldItems = orderItemRepository.findAllByRaffleId(raffleId);
+	    int soldQuantity = soldItems.stream()
+	            .mapToInt(OrderItem::getQuantity)
+	            .sum();
+
+	    return (long) (maxQuantity - soldQuantity);
 	}
 }
