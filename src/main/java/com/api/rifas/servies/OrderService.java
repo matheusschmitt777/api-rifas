@@ -3,6 +3,8 @@ package com.api.rifas.servies;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class OrderService {
 	
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	
+	@Autowired
+	private RaffleNumberService raffleNumberService;
 
 	@Transactional
 	public List<Order> findAll() {
@@ -52,11 +57,18 @@ public class OrderService {
         return repository.save(newOrder);
     }
 	
-	// Supondo que você tenha um método para excluir um pedido pelo ID em seu OrderService
 	public void deleteOrder(Long orderId) {
 	    // Primeiro, encontre o pedido pelo ID
 	    Order order = repository.findById(orderId)
 	            .orElseThrow(() -> new ResourceNotFoundException(orderId));
+
+	    // Obtenha o conjunto de números gerados desse pedido
+	    Set<Integer> generatedNumbers = order.getItems().stream()
+	            .flatMap(item -> item.getGeneratedNumbers().stream())
+	            .collect(Collectors.toSet());
+
+	    // Remova os números gerados do serviço RaffleNumberService
+	    raffleNumberService.removeGeneratedNumbers(orderId, generatedNumbers);
 
 	    // Em seguida, exclua todos os itens de pedido associados a este pedido
 	    for (OrderItem item : order.getItems()) {

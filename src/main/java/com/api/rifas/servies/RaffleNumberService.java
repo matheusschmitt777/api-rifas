@@ -17,13 +17,13 @@ public class RaffleNumberService {
     private Map<Long, Set<Integer>> raffleNumbersMap = new HashMap<>();
 
     public Set<Integer> generateNumbers(Long raffleId, User user, int quantity, int maxNumber) {
-        Set<Integer> generatedNumbers = new HashSet<>();
         Set<Integer> existingNumbers = raffleNumbersMap.getOrDefault(raffleId, new HashSet<>());
 
         if (existingNumbers.size() + quantity > maxNumber) {
             throw new ExceededRaffleLimitException("Exceeded raffle limit for user: " + user.getId());
         }
 
+        Set<Integer> generatedNumbers = new HashSet<>();
         while (generatedNumbers.size() < quantity) {
             int randomNumber = ThreadLocalRandom.current().nextInt(1, maxNumber + 1);
 
@@ -35,5 +35,11 @@ public class RaffleNumberService {
 
         raffleNumbersMap.put(raffleId, existingNumbers); // Atualiza os números gerados para a rifa
         return generatedNumbers;
+    }
+
+    public void removeGeneratedNumbers(Long raffleId, Set<Integer> generatedNumbers) {
+        Set<Integer> existingNumbers = raffleNumbersMap.getOrDefault(raffleId, new HashSet<>());
+        existingNumbers.removeAll(generatedNumbers);
+        raffleNumbersMap.put(raffleId, existingNumbers);
     }
 }
