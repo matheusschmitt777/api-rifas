@@ -61,6 +61,7 @@ public class HomePageService {
 	}
 
 	public void updateData(HomePage entity, HomePage obj) {
-		entity.setImgUrl(obj.getImgUrl());
+		entity.setImgHomePage(obj.getImgHomePage());
+		entity.setImgLogo(obj.getImgLogo());
 	}
 }

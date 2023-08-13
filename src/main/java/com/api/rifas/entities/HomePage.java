@@ -17,30 +17,40 @@ public class HomePage implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String imgUrl;
+	private String imgHomePage;
+	private String imgLogo;
 	
 	public HomePage() {
 	}
 
-	public HomePage(Long id, String imgUrl) {
+	public HomePage(Long id, String imgHomePage, String imgLogo) {
 		this.id = id;
-		this.imgUrl = imgUrl;
+		this.imgHomePage = imgHomePage;
+		this.imgLogo = imgLogo;
 	}
-
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-
+	
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getImgHomePage() {
+		return imgHomePage;
+	}
+
+	public void setImgHomePage(String imgHomePage) {
+		this.imgHomePage = imgHomePage;
+	}
+
+	public String getImgLogo() {
+		return imgLogo;
+	}
+
+	public void setImgLogo(String imgLogo) {
+		this.imgLogo = imgLogo;
 	}
 
 	@Override
