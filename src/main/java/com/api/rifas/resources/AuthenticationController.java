@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.rifas.dto.AuthenticationDTO;
+import com.api.rifas.dto.LoginResponseDTO;
 import com.api.rifas.dto.RegisterDTO;
 import com.api.rifas.entities.UserAdmin;
 import com.api.rifas.repositories.UserAdminRepository;
+import com.api.rifas.servies.config.TokenService;
 
 @RestController
 @RequestMapping("auth")
@@ -26,13 +28,18 @@ public class AuthenticationController {
 	
 	@Autowired
 	private UserAdminRepository repository;
+	
+	@Autowired
+	private TokenService tokenService;
 
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
 		 var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
 		 var auth = this.authenticationManager.authenticate(usernamePassword);
 		 
-		 return ResponseEntity.ok().build();
+		 var token = tokenService.generateToken((UserAdmin) auth.getPrincipal());
+		 
+		 return ResponseEntity.ok(new LoginResponseDTO(token));
 	}
 	
 	@PostMapping("/register")
