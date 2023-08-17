@@ -1,7 +1,14 @@
 package com.api.rifas.entities;
 
-import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.api.rifas.entities.enums.UserRole;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,22 +18,24 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_useradmin")
-public class UserAdmin implements Serializable {
+public class UserAdmin implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+	private String login;
 	private String password;
+	private UserRole role;
 	
 	public UserAdmin() {
 	}
 
-	public UserAdmin(Long id, String name, String password) {
+	public UserAdmin(Long id, String login, String password, UserRole role) {
 		this.id = id;
-		this.name = name;
+		this.login = login;
 		this.password = password;
+		 this.role = role;
 	}
 
 	public Long getId() {
@@ -37,12 +46,12 @@ public class UserAdmin implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setLogin(String name) {
+		this.login = name;
 	}
 
 	public String getPassword() {
@@ -51,6 +60,14 @@ public class UserAdmin implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public UserRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 
 	@Override
@@ -69,4 +86,35 @@ public class UserAdmin implements Serializable {
 		UserAdmin other = (UserAdmin) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	 @Override
+	 public Collection<? extends GrantedAuthority> getAuthorities() {
+	     if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+	     else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+	 }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

@@ -61,7 +61,7 @@ public class UserAdminService {
 	}
 
 	public void updateData(UserAdmin entity, UserAdmin obj) {
-		entity.setName(obj.getName());
+		entity.setLogin(obj.getLogin());
 		entity.setPassword(obj.getPassword());
 	}
 }
