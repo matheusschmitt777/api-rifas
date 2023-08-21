@@ -25,7 +25,12 @@ public class SecurityConfigurations {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 	    return httpSecurity
-	            .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())) // Adicione esta linha
+	            .cors(cors -> cors.configurationSource(request -> {
+	                CorsConfiguration configuration = new CorsConfiguration();
+	                configuration.applyPermitDefaultValues();
+	                configuration.addAllowedOrigin("http://localhost:3000");
+	                return configuration;
+	            }))
 	            .csrf(csrf -> csrf.disable())
 	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	            .authorizeHttpRequests(authorize -> authorize
