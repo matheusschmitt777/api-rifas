@@ -37,9 +37,6 @@ public class SecurityFilter extends OncePerRequestFilter{
 
 	        var authentication = new UsernamePasswordAuthenticationToken(userAdmin, null, userAdmin.getAuthorities());
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-	        // Adicione o token no cabeçalho da resposta
-	        response.addHeader("Authorization", "Bearer " + token);
 	    }
 
 	    filterChain.doFilter(request, response);
@@ -48,7 +45,7 @@ public class SecurityFilter extends OncePerRequestFilter{
 	
 	private String recoverToken(HttpServletRequest request){
 		var authHeader = request.getHeader("Authorization");
-		if(authHeader == null) return null;
+		if(authHeader == null || !authHeader.startsWith("Bearer ")) return null;
         return authHeader.replace("Bearer ", "");
     }
 }
