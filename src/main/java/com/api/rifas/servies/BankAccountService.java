@@ -68,5 +68,6 @@ public class BankAccountService {
 		entity.setAgency(obj.getAgency());
 		entity.setOperation(obj.getOperation());
 		entity.setAccountNumber(obj.getAccountNumber());
+		entity.setToken(obj.getToken());
 	}
 }

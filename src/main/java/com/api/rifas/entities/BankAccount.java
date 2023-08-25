@@ -24,12 +24,13 @@ public class BankAccount implements Serializable{
 	private String agency;
 	private String operation;
 	private String accountNumber;
+	private String token;
 	
 	public BankAccount() {
 	}
 
 	public BankAccount(Long id, String name, String document, String bankName, String accountType, String agency,
-			String operation, String accountNumber) {
+			String operation, String accountNumber, String token) {
 		this.id = id;
 		this.name = name;
 		this.document = document;
@@ -38,6 +39,7 @@ public class BankAccount implements Serializable{
 		this.agency = agency;
 		this.operation = operation;
 		this.accountNumber = accountNumber;
+		this.token = token;
 	}
 
 	public Long getId() {
@@ -102,6 +104,14 @@ public class BankAccount implements Serializable{
 
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	@Override
