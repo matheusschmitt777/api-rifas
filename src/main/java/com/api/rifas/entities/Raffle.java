@@ -47,6 +47,8 @@ public class Raffle implements Serializable{
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
 	private Instant momentCreated;
 	
+	private String token;
+	
 	private Integer raffleStatus;
 	
 	@OneToMany(mappedBy = "id.raffle")
@@ -55,7 +57,7 @@ public class Raffle implements Serializable{
 	public Raffle() {
 	}
 
-	public Raffle(Long id, Integer quantity, String name, String description, Double price, String imgUrl, Instant momentCreated,  RaffleStatus raffleStatus) {
+	public Raffle(Long id, Integer quantity, String name, String description, Double price, String imgUrl, Instant momentCreated, String token, RaffleStatus raffleStatus) {
 		this.id = id;
 		this.quantity = quantity;
 		this.name = name;
@@ -63,6 +65,7 @@ public class Raffle implements Serializable{
 		this.price = price;
 		this.imgUrl = imgUrl;
 		this.momentCreated = momentCreated;
+		this.token = token;
 		setRaffleStatus(raffleStatus);
 	}
 
@@ -121,6 +124,14 @@ public class Raffle implements Serializable{
 
 	public void setMomentCreated(Instant momentCreated) {
 		this.momentCreated = momentCreated;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public RaffleStatus getRaffleStatus() {

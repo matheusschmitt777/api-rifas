@@ -73,6 +73,7 @@ public class RaffleService {
 		entity.setDescription(obj.getDescription());
 		entity.setPrice(obj.getPrice());
 		entity.setImgUrl(obj.getImgUrl());
+		entity.setToken(obj.getToken());
 		entity.setRaffleStatus(obj.getRaffleStatus());
 	}
 	
