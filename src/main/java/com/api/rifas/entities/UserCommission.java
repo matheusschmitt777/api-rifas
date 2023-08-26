@@ -1,10 +1,14 @@
 package com.api.rifas.entities;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.Objects;
 
 import com.api.rifas.entities.enums.ActionCommissionStatus;
 import com.api.rifas.entities.enums.UserCommissionStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,6 +28,24 @@ public class UserCommission implements Serializable{
 	private Double priceCommission;
 	private String account;
 	private Integer actionCommissionStatus;
+	
+	@JsonProperty("price")
+    public String getFormattedPrice() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+        return "R$ " + decimalFormat.format(price);
+    }
+	
+	@JsonProperty("priceCommission")
+    public String getFormattedPrice2() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+        return "R$ " + decimalFormat.format(priceCommission);
+    }
 	
 	public UserCommission() {
 	}
