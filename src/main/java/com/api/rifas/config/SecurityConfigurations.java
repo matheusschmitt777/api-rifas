@@ -1,5 +1,7 @@
 package com.api.rifas.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,12 +27,13 @@ public class SecurityConfigurations {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 	    return httpSecurity
-	            .cors(cors -> cors.configurationSource(request -> {
-	                CorsConfiguration configuration = new CorsConfiguration();
-	                configuration.applyPermitDefaultValues();
-	                configuration.addAllowedOrigin("http://localhost:3000");
-	                return configuration;
-	            }))
+	    		.cors(cors -> cors.configurationSource(request -> {
+	    		    CorsConfiguration configuration = new CorsConfiguration();
+	    		    configuration.applyPermitDefaultValues();
+	    		    configuration.addAllowedOrigin("http://localhost:3000");
+	    		    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+	    		    return configuration;
+	    		}))
 	            .csrf(csrf -> csrf.disable())
 	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	            .authorizeHttpRequests(authorize -> authorize
