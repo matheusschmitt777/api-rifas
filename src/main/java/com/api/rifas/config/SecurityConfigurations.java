@@ -39,7 +39,8 @@ public class SecurityConfigurations {
 	            .authorizeHttpRequests(authorize -> authorize
 	            		.requestMatchers(new AntPathRequestMatcher("/auth/login")).permitAll()
 	            		.requestMatchers(new AntPathRequestMatcher("/auth/register")).permitAll()
-	                    .requestMatchers(new AntPathRequestMatcher("/users")).hasRole("ADMIN")
+	                    .requestMatchers(new AntPathRequestMatcher("/**", "GET")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/**", "POST")).permitAll()
 	                    .anyRequest().authenticated()
 	            )
 	            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

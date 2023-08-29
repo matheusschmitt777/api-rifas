@@ -1,5 +1,7 @@
 package com.api.rifas.resources;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,5 +56,22 @@ public class AuthenticationController {
 		 this.repository.save(newUser);
 
 	     return ResponseEntity.ok().build();	 
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity update(@PathVariable Long id, @RequestBody @Valid RegisterDTO data){
+	    Optional<UserAdmin> optional = repository.findById(id);
+	    if(optional.isPresent()){
+	        UserAdmin userAdmin = optional.get();
+	        // Atualize os campos necessários aqui
+	        // Por exemplo, para atualizar o login:
+	        userAdmin.setLogin(data.login());
+	        // Não esqueça de criptografar a senha antes de definir
+	        userAdmin.setPassword(new BCryptPasswordEncoder().encode(data.password()));
+	        repository.save(userAdmin);
+	        return ResponseEntity.ok().build();
+	    }else{
+	        return ResponseEntity.notFound().build();
+	    }
 	}
 }
