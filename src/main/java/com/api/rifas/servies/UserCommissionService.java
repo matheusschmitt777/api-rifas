@@ -68,5 +68,6 @@ public class UserCommissionService {
 		entity.setPriceCommission(obj.getPriceCommission());
 		entity.setAccount(obj.getAccount());
 		entity.setActionCommissionStatus(obj.getActionCommissionStatus());
+		entity.setLink(obj.getLink());
 	}
 }

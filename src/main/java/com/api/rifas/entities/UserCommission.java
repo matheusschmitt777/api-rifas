@@ -28,6 +28,7 @@ public class UserCommission implements Serializable{
 	private Double priceCommission;
 	private String account;
 	private Integer actionCommissionStatus;
+	private String link;
 	
 	@JsonProperty("price")
     public String getFormattedPrice() {
@@ -51,7 +52,7 @@ public class UserCommission implements Serializable{
 	}
 
 	public UserCommission(Long id, String raffleCommission, UserCommissionStatus userCommissionStatus,  String seller, Double price, Double priceCommission,
-			String account, ActionCommissionStatus actionCommissionStatus) {
+			String account, ActionCommissionStatus actionCommissionStatus, String link) {
 		this.id = id;
 		this.raffleCommission = raffleCommission;
 		setUserCommissionStatus(userCommissionStatus);
@@ -60,6 +61,7 @@ public class UserCommission implements Serializable{
 		this.priceCommission = priceCommission;
 		this.account = account;
 		setActionCommissionStatus(actionCommissionStatus);
+		this.link = link;
 	}
 
 	public Long getId() {
@@ -128,6 +130,14 @@ public class UserCommission implements Serializable{
 		if (actionCommissionStatus != null) {
 			this.actionCommissionStatus = actionCommissionStatus.getCode();
 		}
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 	@Override
