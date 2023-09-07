@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.stereotype.Service;
 
+import com.api.rifas.entities.OrderItem;
 import com.api.rifas.entities.User;
 import com.api.rifas.servies.exceptions.ExceededRaffleLimitException;
 
@@ -41,5 +42,9 @@ public class RaffleNumberService {
         Set<Integer> existingNumbers = raffleNumbersMap.getOrDefault(raffleId, new HashSet<>());
         existingNumbers.removeAll(generatedNumbers);
         raffleNumbersMap.put(raffleId, existingNumbers);
+    }
+    
+    public void deleteRaffleNumbers(OrderItem item) {
+        removeGeneratedNumbers(item.getRaffle().getId(), item.getGeneratedNumbers());
     }
 }

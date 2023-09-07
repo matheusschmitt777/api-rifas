@@ -51,7 +51,7 @@ public class OrderResource {
 	 
 	 @DeleteMapping("/{id}")
 	 public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-		 service.deleteOrder(id);
+	     service.delete(id);
 	     return ResponseEntity.noContent().build();
 	 }
 }

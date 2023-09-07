@@ -44,7 +44,7 @@ public class OrderService {
 		Optional<Order> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
-
+	
 	@Transactional
     public Order createOrder(OrderDTO orderDTO) {
         User client = userRepository.findById(orderDTO.getClientId())
@@ -56,26 +56,15 @@ public class OrderService {
 
         return repository.save(newOrder);
     }
-	
-	public void deleteOrder(Long orderId) {
-	    // Primeiro, encontre o pedido pelo ID
-	    Order order = repository.findById(orderId)
-	            .orElseThrow(() -> new ResourceNotFoundException(orderId));
 
-	    // Obtenha o conjunto de números gerados desse pedido
-	    Set<Integer> generatedNumbers = order.getItems().stream()
-	            .flatMap(item -> item.getGeneratedNumbers().stream())
-	            .collect(Collectors.toSet());
-
-	    // Remova os números gerados do serviço RaffleNumberService
-	    raffleNumberService.removeGeneratedNumbers(orderId, generatedNumbers);
-
-	    // Em seguida, exclua todos os itens de pedido associados a este pedido
-	    for (OrderItem item : order.getItems()) {
-	        orderItemRepository.delete(item);
+	@Transactional
+	public void delete(Long id) {
+	    Order order = findById(id);
+	    Set<OrderItem> items = order.getItems();
+	    for (OrderItem item : items) {
+	        raffleNumberService.deleteRaffleNumbers(item);
 	    }
-
-	    // Finalmente, exclua o próprio pedido
+	    orderItemRepository.deleteAll(items);
 	    repository.delete(order);
 	}
 }

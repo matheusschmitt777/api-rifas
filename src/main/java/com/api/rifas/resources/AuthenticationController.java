@@ -68,6 +68,7 @@ public class AuthenticationController {
 	        userAdmin.setLogin(data.login());
 	        // Não esqueça de criptografar a senha antes de definir
 	        userAdmin.setPassword(new BCryptPasswordEncoder().encode(data.password()));
+	        userAdmin.setRole(data.role());
 	        repository.save(userAdmin);
 	        return ResponseEntity.ok().build();
 	    }else{

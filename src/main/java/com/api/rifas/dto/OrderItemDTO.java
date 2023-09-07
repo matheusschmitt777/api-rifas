@@ -4,11 +4,21 @@ import java.util.Set;
 
 public class OrderItemDTO {
 
-	private Long id;
-	private Long orderId;
-	private Long raffleId;
-	private Integer quantity;
-	private Set<Integer> generatedNumbers;
+    private Long id;
+    private Long orderId;
+    private Long raffleId;
+    private Integer quantity;
+    private Set<Integer> generatedNumbers;
+    private String errorMessage; // Mensagem de erro
+
+    // Construtor padrão
+    public OrderItemDTO() {
+    }
+
+    // Construtor para definir uma mensagem de erro
+    public OrderItemDTO(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 
 	public Long getId() {
 		return id;
@@ -48,5 +58,13 @@ public class OrderItemDTO {
 
 	public void setGeneratedNumbers(Set<Integer> generatedNumbers) {
 		this.generatedNumbers = generatedNumbers;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 }

@@ -41,6 +41,8 @@ public class SecurityConfigurations {
 	            		.requestMatchers(new AntPathRequestMatcher("/auth/register")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/**", "GET")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/**", "POST")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/**", "PUT")).hasRole("ADMIN")
+	                    .requestMatchers(new AntPathRequestMatcher("/**", "DELETE")).hasRole("ADMIN")
 	                    .anyRequest().authenticated()
 	            )
 	            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
